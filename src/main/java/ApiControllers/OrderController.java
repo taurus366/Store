@@ -60,9 +60,10 @@ public class OrderController {
 			throws ClassNotFoundException, SQLException, NoSuchAlgorithmException {
 		deleteoldTokens.DeleteOldTokens();
 		oldsession.DeleteoldSessions();
-		updateSessionidTime.UpdateSessionId(toMD5.GenerateMd5(session));
+		//updateSessionidTime.UpdateSessionId(toMD5.GenerateMd5(session));
 
 		try {
+			updateSessionidTime.UpdateSessionId(toMD5.GenerateMd5(session));
 			if (token.length() == 0 && session.length() > 0) {
 				// only guests!
 
@@ -129,7 +130,7 @@ public class OrderController {
 
 		} catch (NullPointerException e) {
 			return Response.status(Response.Status.NOT_FOUND)
-					.entity("If you see this  Please add HeaderParam   'Auth' and Header 'session' ").build();
+					.entity("If you see this  Please add HeaderParam   'Auth' and Header 'session' , if you are a guest please be sure that Auth and  session are wrote and Auth is clean ! ").build();
 		}
 
 		return Response.status(Response.Status.UNAUTHORIZED).entity("If you see this this is why something went wrong!")
