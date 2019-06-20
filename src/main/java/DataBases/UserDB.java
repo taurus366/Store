@@ -1,13 +1,21 @@
 package DataBases;
 
+import java.net.URISyntaxException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriInfo;
+
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
+import com.sun.org.apache.xerces.internal.util.URI;
+import com.sun.org.apache.xerces.internal.util.URI.MalformedURIException;
+
 import Generators.FromStringToMd5;
 import models.Login;
 import models.isValidModels;
@@ -18,6 +26,8 @@ public class UserDB {
 	Connection conn = null;
 	ResultSet rs = null;
 	FromStringToMd5 md5 = new FromStringToMd5();
+	@Context
+	UriInfo uriInfo;
 
 	/**
 	 * Create a new row about User's info like email and password into DB Users then
@@ -32,14 +42,19 @@ public class UserDB {
 	 * @param postalcode Required field to fill in to DB users_address
 	 * @param city       Required field to fill in to DB users_address
 	 * @param address    Required field to fill in to DB users_address
+	 * @return 
 	 * @return send a message to the display that operation is completed successful
 	 * @throws ClassNotFoundException if class did not found
 	 * @throws SQLException           if query to SQL is not successful
+	 * @throws MalformedURIException 
+	 * @throws URISyntaxException 
 	 */
 	public Response doPOSTuser(String email, String password, String firstname, String lastname, String phone,
 			String country, String postalcode, String city, String address)
 
-			throws ClassNotFoundException, SQLException {
+	
+			throws ClassNotFoundException, SQLException, MalformedURIException, URISyntaxException {
+		
 
 		try {
 
@@ -83,9 +98,13 @@ public class UserDB {
 		} catch (SQLException e) {
 
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
+			//return e.getMessage();
 		}
+		java.net.URI uri = new java.net.URI("/login/success");
+		return Response.temporaryRedirect(uri).build();
+		//return uri;
 
-		return Response.status(Response.Status.OK).entity("You registered !").build();
+		//return Response.status(Response.Status.OK).entity("You registered !").build();
 
 	}
 
