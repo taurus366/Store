@@ -82,7 +82,16 @@ public class UserController {
 
 //		return Response.status(Response.Status.NOT_ACCEPTABLE)
 //				.entity("User with same email has already registered! , please choose another email").build();
-		return UserDB.doPOSTuser(email, password, firstname, lastname, phone, country, postalcode, city, address);
+		try {
+			UserDB.doPOSTuser(email, password, firstname, lastname, phone, country, postalcode, city, address);
+		} catch (Exception e) {
+			// TODO: handle exception
+			return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
+		}
+		
+		//return UserDB.doPOSTuser(email, password, firstname, lastname, phone, country, postalcode, city, address);
+		java.net.URI url = new java.net.URI("/Store/login");
+		return Response.temporaryRedirect(url).build();
 	}
 
 	/**

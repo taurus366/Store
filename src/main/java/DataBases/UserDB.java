@@ -43,20 +43,21 @@ public class UserDB {
 	 * @param city       Required field to fill in to DB users_address
 	 * @param address    Required field to fill in to DB users_address
 	 * @return 
+	 * @return 
 	 * @return send a message to the display that operation is completed successful
 	 * @throws ClassNotFoundException if class did not found
 	 * @throws SQLException           if query to SQL is not successful
 	 * @throws MalformedURIException 
 	 * @throws URISyntaxException 
 	 */
-	public Response doPOSTuser(String email, String password, String firstname, String lastname, String phone,
+	public void doPOSTuser(String email, String password, String firstname, String lastname, String phone,
 			String country, String postalcode, String city, String address)
 
 	
 			throws ClassNotFoundException, SQLException, MalformedURIException, URISyntaxException {
 		
 
-		try {
+		//try {
 
 			conn = connectLink.getConnectionLink();
 
@@ -95,14 +96,15 @@ public class UserDB {
 			myStmt.setString(8, address);
 			myStmt.executeUpdate();
 
-		} catch (SQLException e) {
-
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
+		//} catch (SQLException e) {
 			//return e.getMessage();
-		}
-		java.net.URI uri = new java.net.URI("/login/success");
-		return Response.temporaryRedirect(uri).build();
+			//return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
+			//return e.getMessage();
+		//}
+		//java.net.URI uri = new java.net.URI("/login/success");
+		//return Response.temporaryRedirect(uri).build();
 		//return uri;
+		//return address;
 
 		//return Response.status(Response.Status.OK).entity("You registered !").build();
 

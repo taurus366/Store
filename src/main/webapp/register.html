@@ -1,16 +1,77 @@
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<form action="http://localhost:8081/Store/rest/auth/register" method="post">
-<p style="text-align: center;"><em>&nbsp; &nbsp; Name </em> : &nbsp; &nbsp;&nbsp;<input id="name" name="name" type="text" /><br></p>
-<p style="text-align: center;">&nbsp; &nbsp; Last name:&nbsp;&nbsp;<input id="secondname" name="secondname" type="text">&nbsp;<br></p>
-<p style="text-align: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  Country:&nbsp;&nbsp;&nbsp;<input id="secondname" name="secondname" type="text">&nbsp;<br></p>
-<p style="text-align: center;">&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; City:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="secondname" name="secondname" type="text">&nbsp;<br></p>
-<p style="text-align: center;">  PostalCode:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="secondname" name="secondname" type="text">&nbsp;<br></p>
-<p style="text-align: center;">&nbsp; &nbsp; Address:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="secondname" name="secondname" type="text">&nbsp;<br></p>
-<p style="text-align: center;">&nbsp; &nbsp; Phone:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="secondname" name="secondname" type="text">&nbsp;<br></p>
-<p style="text-align: center;">&nbsp;&nbsp;&nbsp;&nbsp;Email :&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<input id="email" name="email" type="text">&nbsp;<br></p>
-<p style="text-align: center;">&nbsp;&nbsp;&nbsp;Password :&nbsp;&nbsp;&nbsp;&nbsp; <input id="password" name="password" type="password" style="width: 157px; "/><br></p>
+<script>
+function required(firstname,lastname,email,password,country,city,postalcode,address,phone){
+firstname.style.borderColor = "white";
+lastname.style.borderColor = "white";
+email.style.borderColor = "white";
+password.style.borderColor = "white";
+country.style.borderColor = "white";
+city.style.borderColor = "white";
+postalcode.style.borderColor = "white";
+address.style.borderColor = "white";
+phone.style.borderColor = "white";
+if(firstname.value.length ==0){
+alert("Please fill in the gap where is red (firstname)");
+firstname.style.borderColor = "red";
+return false;
+}else if(lastname.value.length ==0){
+alert("Please fill in the gap where is red (lastname)");
+lastname.style.borderColor = "red";
+return false;
+}else if(email.value.length==0){
+alert("Please fill in the gap where is red (email)");
+email.style.borderColor = "red";
+return false;
+}else if(password.value.length==0){
+alert("Please fill in the gap where is red (password)");
+password.style.borderColor = "red";
+return false;
+}else if(country.value.length==0){
+alert("Please fill in the gap where is red (country)");
+country.style.borderColor = "red";
+return false;
+}else if(city.value.length==0){
+alert("Please fill in the gap where is red (city)");
+city.style.borderColor = "red";
+return false;
+}else if(postalcode.value.length==0){
+alert("Please fill in the gap where is red (postalcode)");
+postalcode.style.borderColor = "red";
+return false;
+}else if(address.value.length==0){
+alert("Please fill in the gap where is red (address)");
+address.style.borderColor = "red";
+return false;
+}else if(phone.value.length==0){
+alert("Please fill in the gap where is red (phone)");
+phone.style.borderColor = "red";
+return false;
+}
+}
+function clean(gap){
+if(gap.value.length >0){
+gap.value =""
+}
+}
 
-<p style="text-align: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="submit" value="Register" /></p>
+
+
+
+</script>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<form action="http://localhost:8081/Store/rest/auth/register" method="post" onsubmit="return required(firstname,lastname,email,password,country,city,postalcode,address,phone)" >
+<p style="text-align: center;"><input id="firstname" name="firstname" value="firstname" onclick="clean(firstname),this.onclick=''"type="text"><br></p>
+<p style="text-align: center;"><input id="lastname" name="lastname" value="lastname" onclick="clean(lastname),this.onclick=''" type="text"><br></p>
+<p style="text-align: center;"><input id="email" name="email" value="email" onclick="clean(email),this.onclick=''" type="text"><br></p>
+<p style="text-align: center;"><input id="password" name="password" value="password" onclick="clean(password),this.onclick='',this.type='password'" type="text"><br></p>
+<p style="text-align: center;"><input id="country" name="country" value="country" onclick="clean(country),this.onclick=''" type="text"><br></p>
+<p style="text-align: center;"><input id="city" name="city" value="city" onclick="clean(city),this.onclick=''" type="text"><br></p>
+<p style="text-align: center;"><input id="postalcode" name="postalcode" value="postalcode" onclick="clean(postalcode),this.onclick=''" type="text"><br></p>
+<p style="text-align: center;"><input id="address" name="address" value="address" onclick="clean(address),this.onclick=''" type="text"><br></p>
+<p style="text-align: center;"><input id="phone" name="phone" value="phone" onclick="clean(phone),this.onclick=''" type="text"><br></p>
+<p style="text-align: center;"><input type="submit" value="Register" /></p>
 
 </form>
+
+
