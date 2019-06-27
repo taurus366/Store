@@ -1,3 +1,13 @@
+<html>
+
+
+<head>
+<meta charset="UTF-8">
+<title>Register</title>
+
+</head>
+
+
 <script>
 function required(firstname,lastname,email,password,country,city,postalcode,address,phone){
 firstname.style.borderColor = "white";
@@ -45,6 +55,42 @@ return false;
 alert("Please fill in the gap where is red (phone)");
 phone.style.borderColor = "red";
 return false;
+}else if(firstname.value === 'firstname'){
+alert("Please write your ^firstname^ where you see in (blue color)");
+firstname.style.borderColor = "blue";
+return false;
+}else if(lastname.value === 'lastname'){
+alert("Please write your ^lastname^ where you see in (blue color)");
+lastname.style.borderColor = "blue";
+return false;
+}else if(email.value === 'email'){
+alert("Please write your ^email^ where you see in (blue color)");
+email.style.borderColor = "blue";
+return false;
+}else if(password.value === 'password'){
+alert("Please write your ^password^ where you see in (blue color)");
+password.style.borderColor = "blue";
+return false;
+}else if(country.value === 'country'){
+alert("Please write your ^country^ where you see in (blue color)");
+country.style.borderColor = "blue";
+return false;
+}else if(city.value === 'city'){
+alert("Please write your ^city^ where you see in (blue color)");
+city.style.borderColor = "blue";
+return false;
+}else if(postalcode.value === 'postalcode'){
+alert("Please write your ^postalcode^ where you see in (blue color)");
+postalcode.style.borderColor = "blue";
+return false;
+}else if(address.value === 'address'){
+alert("Please write your ^address^ where you see in(blue color)");
+address.style.borderColor = "blue";
+return false;
+}else if(phone.value === 'phone'){
+alert("Please write your ^phone^ where you see in (blue color)");
+phone.style.borderColor = "blue";
+return false;
 }
 }
 function clean(gap){
@@ -57,7 +103,11 @@ gap.value =""
 
 
 </script>
-
+<body>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <form action="http://localhost:8081/Store/rest/auth/register" method="post" onsubmit="return required(firstname,lastname,email,password,country,city,postalcode,address,phone)" >
@@ -73,5 +123,6 @@ gap.value =""
 <p style="text-align: center;"><input type="submit" value="Register" /></p>
 
 </form>
-
+</body>
+</html>
 

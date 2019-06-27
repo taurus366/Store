@@ -185,4 +185,31 @@ public class UserDB {
 		return Response.status(Status.UNAUTHORIZED).entity("You wrote invalid 'email' or 'password' !").build();
 
 	}
+	
+	public boolean doUserloginCheck(String email,String password) throws ClassNotFoundException, SQLException {
+		
+		ArrayList<Login> users = new ArrayList<>();
+		
+		conn = connectLink.getConnectionLink();
+
+		myStmt = (PreparedStatement) conn.prepareStatement("select * from users where `email` =? and `password` =?");
+		myStmt.setString(1, email);
+		myStmt.setString(2, password);
+		rs = myStmt.executeQuery();
+		
+		while (rs.next()) {
+
+			Login userinfo = new Login();
+			userinfo.id = rs.getString(1);
+			userinfo.email = rs.getString(2);
+			userinfo.password = rs.getString(3);
+
+			users.add(userinfo);
+		}
+		
+		if(users.size()>0) {
+			return false;
+		}
+		return true;		
+	}
 }

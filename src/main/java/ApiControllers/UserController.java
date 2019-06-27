@@ -5,11 +5,13 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import com.mysql.jdbc.Connection;
@@ -55,13 +57,23 @@ public class UserController {
 
 	@POST
 	@Path("/auth/register")
-	@Consumes(MediaType.APPLICATION_JSON)
+	//@Consumes(MediaType.APPLICATION_JSON)
 	//RegisterUser user
-	public Response doPostUser( @PathParam("firstname")String firstname,@PathParam("lastname")String lastname,@PathParam("phone")String phone,@PathParam("postalcode")String postalcode,@PathParam("country")String country,@PathParam("city")String city,@PathParam("address")String address,@PathParam("email")String email,@PathParam("password")String password)
+	public Response doPostUser( @FormParam("firstname")String firstname,@FormParam("lastname")String lastname,@FormParam("phone")String phone,@FormParam("postalcode")String postalcode,@FormParam("country")String country,@FormParam("city")String city,@FormParam("address")String address,@FormParam("email")String email,@FormParam("password")String password)
 			throws ClassNotFoundException, SQLException, NoSuchAlgorithmException, MalformedURIException, URISyntaxException {
 		deleteoldTokens.DeleteOldTokens();
 		oldsession.DeleteoldSessions();
-
+		
+		System.out.println(email);
+		System.out.println(firstname);
+		System.out.println(lastname);
+		System.out.println(phone);
+		System.out.println(postalcode);
+		System.out.println(country);
+		System.out.println(city);
+		System.out.println(address);
+		System.out.println(password);
+		
 //		try {
 //			if (user.getEmail().length() == 0 || user.getPassword().length() == 0 || user.getFirstname().length() == 0
 //					|| user.getLastname().length() == 0 || user.getPhone().length() == 0
@@ -82,15 +94,21 @@ public class UserController {
 
 //		return Response.status(Response.Status.NOT_ACCEPTABLE)
 //				.entity("User with same email has already registered! , please choose another email").build();
-		try {
-			UserDB.doPOSTuser(email, password, firstname, lastname, phone, country, postalcode, city, address);
-		} catch (Exception e) {
-			// TODO: handle exception
-			return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
+		
+		if(isvalid.isDuplicateUser(email)) {
+			try {
+				UserDB.doPOSTuser(email, password, firstname, lastname, phone, country, postalcode, city, address);
+			} catch (Exception e) {
+				// TODO: handle exception
+				return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
+			}
+			
+			//return UserDB.doPOSTuser(email, password, firstname, lastname, phone, country, postalcode, city, address);
+			java.net.URI url = new java.net.URI("/Store/login.html");
+			return Response.temporaryRedirect(url).build();
 		}
 		
-		//return UserDB.doPOSTuser(email, password, firstname, lastname, phone, country, postalcode, city, address);
-		java.net.URI url = new java.net.URI("/Store/login");
+		java.net.URI url = new java.net.URI("/Store/register.html");
 		return Response.temporaryRedirect(url).build();
 	}
 
@@ -108,10 +126,19 @@ public class UserController {
 	@Path("/auth/login")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response Userlogin(Login loginmodel) throws NoSuchAlgorithmException, ClassNotFoundException, SQLException {
+	public Response Userlogin(@QueryParam("email")String email,@QueryParam("password")String password) throws NoSuchAlgorithmException, ClassNotFoundException, SQLException {
 		deleteoldTokens.DeleteOldTokens();
 		oldsession.DeleteoldSessions();
 
+		if(UserDB.doUserloginCheck(email, password)) {
+			
+			
+		//I AM HERE !!!! <<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>	
+			
+		}
+		
+		
+		
 		try {
 			return UserDB.doUserloginCheck(loginmodel.getEmail(), tomd5.GenerateMd5(loginmodel.getPassword()),
 					session.sessionGenerator(), tokenG.GenerateToken());
