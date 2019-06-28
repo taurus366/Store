@@ -208,8 +208,21 @@ public class UserDB {
 		}
 		
 		if(users.size()>0) {
-			return false;
+			return true;
 		}
-		return true;		
+		return false;		
+	}
+	
+	public void postUserTokentoDB(StringBuilder token) {
+		conn = connectLink.getConnectionLink();
+
+		myStmt = (PreparedStatement) conn.prepareStatement("INSERT INTO `" + connectLink.schema
+				+ "`.`sessions` (`id`, `user_id` ,`session`, `start_date`,`last_activity_date`) VALUES (default,?,?,now(),now())");
+
+		myStmt.setString(1, login.id);
+		myStmt.setString(2, sessionidmd5);
+
+		myStmt.executeUpdate();
+		
 	}
 }

@@ -130,12 +130,27 @@ public class UserController {
 		deleteoldTokens.DeleteOldTokens();
 		oldsession.DeleteoldSessions();
 
-		if(UserDB.doUserloginCheck(email, password)) {
+		if(UserDB.doUserloginCheck(email, tomd5.GenerateMd5(password))) {
+			 StringBuilder token = tokenG.GenerateToken();
+			 try {
+				 UserDB.postUserTokentoDB(token);
+				 
+				 
+			} catch (Exception e) {
+				
+				
+				
+				// TODO: handle exception
+			}
 			
 			
-		//I AM HERE !!!! <<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>	
+	
 			
 		}
+		
+		
+		java.net.URI url = new java.net.URI("/Store/login.html");
+		return Response.temporaryRedirect(url).build(); 
 		
 		
 		
