@@ -213,15 +213,41 @@ public class UserDB {
 		return false;		
 	}
 	
-	public void postUserTokentoDB(StringBuilder token) {
+	public void postUserTokentoDB(StringBuilder token,String email) throws SQLException, ClassNotFoundException {
+		
+		conn = connectLink.getConnectionLink();
+		myStmt = (PreparedStatement) conn.prepareStatement("select * from users where `email` =?");
+		myStmt.setString(1, email);
+		rs = myStmt.executeQuery();
+		
+		ArrayList<Login> users = new ArrayList<>();
+		
+		while (rs.next()) {
+
+			Login userinfo = new Login();
+			userinfo.id = rs.getString(1);
+			userinfo.email = rs.getString(2);
+			userinfo.password = rs.getString(3);
+
+			users.add(userinfo);
+			
+		}
+		
+		String id = null;
+		for(int i=0;i<users.size();i++) {
+			Login login = users.get(i);
+			
+			id = login.id;
+		}
+		
+		
 		conn = connectLink.getConnectionLink();
 
 		myStmt = (PreparedStatement) conn.prepareStatement("INSERT INTO `" + connectLink.schema
-				+ "`.`sessions` (`id`, `user_id` ,`session`, `start_date`,`last_activity_date`) VALUES (default,?,?,now(),now())");
+				+ "`.`tokens` (`id`, `user_id` ,`token`, `create_date`,`expire_date`) VALUES (default,?,'"
+				+ token + "',now(),now() + INTERVAL 30 MINUTE)");
 
-		myStmt.setString(1, login.id);
-		myStmt.setString(2, sessionidmd5);
-
+		myStmt.setString(1, id);
 		myStmt.executeUpdate();
 		
 	}
