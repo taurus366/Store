@@ -1,0 +1,66 @@
+ <!DOCTYPE html> 
+  <html>
+  <head>
+<title>CAR APPLICATION</title>
+ </head>
+ <body>
+<center>
+    <h1>CAR APPLICATION</h1>
+</center>
+
+<table id="gable" border="5" bordercolor="blue" align="center">
+    <tr>
+        <th colspan="6">Articles</th> 
+    </tr>
+    <tr>
+        <th colspan="1">Title</th>
+        <th colspan="1">Content</th>
+        <th  width=180>Author</th>
+		<th colspan="1">Photo</th>
+		<th colspan="1">Control Cart</th>
+		
+    </tr>
+    <tr>
+        <td>Bugatti Veyron Super Sport</th>
+        <td><textarea readonly id="" cols="45" rows="10">afsasfasasdasdasdasdasdasdasdasdasdasasda</textarea> </th>
+                <!-- considering it is on the same folder that .html file -->
+				<td valign="top">TEST ali zinal aliuasdasdasdasdasdasdas</th>
+        <td><img src="https://s12emagst.akamaized.net/products/16589/16588628/images/res_c0186b74fbffcbd3dd83e1adcbc26114_150x150_n7hn.jpg" alt="" border=0 height=120 width=180></img></th>
+		<td><button type="button">ADD to Cart</button>
+		<button type="button">Remove from Cart</button> </th>
+    </tr>
+   
+</table>
+<script>
+
+fetch('http://localhost:8081/Store/rest/articles')
+.then(response => response.json())
+.then((data)=> {
+  
+ var table = document.getElementById('gable');
+  data.forEach(function(i){
+ 
+  console.log(i);
+ 
+  var tr = document.createElement('tr');
+    tr.innerHTML = '<td>' + i.title + '</td>' +
+        '<td>' + '<textarea readonly id="" cols="45" rows="10">'+i.content +'</textarea>' + '</td>' +
+        '<td valign="top" >' + i.author + '</td>' +
+		'<td>' + '<img src="'+i.url+'" alt="" border=0 height=120 width=180></img>' +'</th>'+
+		'<td>'+'<button type="button">ADD to Cart</button>'+
+		'<button type="button">Remove from Cart</button>'+ '</th>';
+		'<td>' +'<textarea readonly id="" cols="45" rows="10">afsasfas</textarea>' +'</th>'
+		
+    table.appendChild(tr);
+});
+
+})
+
+
+
+
+
+
+</script>
+  </body>
+  <html>

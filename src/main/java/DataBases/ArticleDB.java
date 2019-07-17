@@ -113,7 +113,16 @@ public class ArticleDB {
 	@SuppressWarnings("unchecked")
 	public Response doGETallArticlesfromDB() throws ClassNotFoundException, SQLException {
 
-		String sql = "SELECT * FROM articles";
+		//String sql = "SELECT * FROM articles";
+		String sql = "select\r\n" + 
+				"arp.`url` as 'url',\r\n" + 
+				"art.`id` as 'id',\r\n" + 
+				"art.`title` as 'title',\r\n" + 
+				"art.`content` as 'content',\r\n" + 
+				"art.`author` as 'author'\r\n" + 
+				"from `articles_photo` as arp\r\n" + 
+				"inner join `articles` as art on\r\n" + 
+				"arp.`articles_id` = art.`id`";
 		JSONArray Articleslist = new JSONArray();
 
 		try {
@@ -126,11 +135,11 @@ public class ArticleDB {
 			while (rs.next()) {
 
 				JSONObject articleInfo = new JSONObject();
-				articleInfo.put("ID", rs.getInt(1));
-				articleInfo.put("Title", rs.getString(2));
-				articleInfo.put("Content", rs.getString(3));
-				articleInfo.put("Author", rs.getString(4));
-				articleInfo.put("Created", rs.getString(5));
+				articleInfo.put("url", rs.getString(1));
+				articleInfo.put("id", rs.getString(2));
+				articleInfo.put("title", rs.getString(3));
+				articleInfo.put("content", rs.getString(4));
+				articleInfo.put("author", rs.getString(5));
 				Articleslist.add(articleInfo);
 
 			}

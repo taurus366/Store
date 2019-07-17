@@ -6,6 +6,7 @@ import java.sql.SQLException;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
@@ -92,6 +93,18 @@ public class ArticleController {
 
 		}
 		return Response.status(Response.Status.UNAUTHORIZED).entity("Only admins can use this request !").build();
+	}
+	
+	
+	@POST
+	@Path("/articles/test")
+	//@Consumes(MediaType.APPLICATION_JSON)
+	public Response test(@FormParam("Title")String title, @FormParam("Author")String author, @FormParam("url")String url, @FormParam("textarea")String content1) {
+		System.out.println(title);
+		System.out.println(author);
+		System.out.println(url);
+		System.out.println(content1);
+		return null;
 	}
 
 	/**

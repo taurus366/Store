@@ -1,0 +1,62 @@
+<html>
+
+
+<head>
+<meta charset="UTF-8">
+<title>Upload_Article</title>
+
+</head>
+
+
+<script>
+function required(Title,Author,url,textarea){
+Title.style.borderColor = "white";
+textarea.style.borderColor = "white";
+Author.style.borderColor = "white";
+url.style.borderColor = "white";
+if(Title.value.length ==0 || Title.value ==='Title'){
+alert("Please fill in the gap where is red (Title)");
+Title.style.borderColor = "red";
+return false;
+}else if(textarea.value.length ==0 || textarea.value==='Content'){
+alert("Please fill in the gap where is red (Content)");
+textarea.style.borderColor = "red";
+return false;
+}else if(Author.value.length==0 || Author.value==='Author'){
+alert("Please fill in the gap where is red (Author)");
+Author.style.borderColor = "red";
+return false;
+}else if(url.value.length==0 || url.value==='url-address'){
+alert("Please fill in the gap where is red (url-address)");
+url.style.borderColor = "red";
+return false;
+}
+}
+function clean(gap){
+if(gap.value.length >0){
+gap.value =""
+}
+}
+
+
+
+
+</script>
+<body>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<form action="http://localhost:8081/Store/rest/articles/test" method="post" id="formtext" onsubmit="return required(Title,Author,url,textarea)" >
+<p style="text-align: center;"><input id="Title" name="Title" value="Title" onclick="clean(Title),this.onclick=''"type="text"><br></p>
+<p style="text-align: center;"><input id="Author" name="Author" value="Author" onclick="clean(Author),this.onclick=''" type="text"><br></p>
+<p style="text-align: center;"><input id="url" name="url" value="url-address" onclick="clean(url),this.onclick=''" type="text"><br></p>
+<center>  <textarea   id="textarea" rows="4" cols="50" name="textarea" form="formtext" onclick="clean(textarea),this.onclick=''" >Content</textarea> </center>
+<p style="text-align: center;"><input type="submit" value="Upload" /></p>
+
+</form>
+</body>
+</html>
+
