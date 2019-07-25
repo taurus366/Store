@@ -12,6 +12,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
@@ -62,8 +63,8 @@ public class UserController {
 	//RegisterUser user
 	public Response doPostUser( @FormParam("firstname")String firstname,@FormParam("lastname")String lastname,@FormParam("phone")String phone,@FormParam("postalcode")String postalcode,@FormParam("country")String country,@FormParam("city")String city,@FormParam("address")String address,@FormParam("email")String email,@FormParam("password")String password)
 			throws ClassNotFoundException, SQLException, NoSuchAlgorithmException, MalformedURIException, URISyntaxException {
-		deleteoldTokens.DeleteOldTokens();
-		oldsession.DeleteoldSessions();
+		//deleteoldTokens.DeleteOldTokens();
+		//oldsession.DeleteoldSessions();
 		
 		
 		
@@ -138,12 +139,13 @@ public class UserController {
 			}
 			
 			// HERE !
-			 NewCookie cookie = new NewCookie("cookie", token.toString());
+			 NewCookie cookie = new NewCookie("myStrCookie",token.toString(),"/", "", "comment", 100, false);
 			    //return Response.ok().cookie(cookie).build();
 			    
-			    java.net.URI url = new java.net.URI("/Store/all.ok");
+			    java.net.URI url = new java.net.URI("/Store/table.html");
 				return Response.temporaryRedirect(url).cookie(cookie).build();
 			
+				
 		}
 		
 		

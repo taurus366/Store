@@ -3,11 +3,20 @@ package ApiControllers;
 import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+
+import javax.ws.rs.CookieParam;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
+
+import javax.ws.rs.core.Cookie;
+
 import javax.ws.rs.core.Response;
+
+
+
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 import BooleanCheck.CheckValidBoolean;
@@ -42,13 +51,16 @@ public class ArticleController {
 	@GET
 	@Path("/articles")
 	public Response GetArticleBYTitle(@DefaultValue("0") @QueryParam("title") String title,
-			@DefaultValue("0") @QueryParam("author") String author)
+			@DefaultValue("0") @QueryParam("author") String author ,@CookieParam(value="myStrCookie") String cookieParam1)
 			throws ClassNotFoundException, SQLException, NoSuchAlgorithmException {
-		deleteoldTokens.DeleteOldTokens();
-		oldsession.DeleteoldSessions();
-
+		//deleteoldTokens.DeleteOldTokens();
+		//oldsession.DeleteoldSessions();
+		
+	  
+		System.out.println(cookieParam1);
+		System.out.println("TEST~!");
 		if (title.equals("0") && author.equals("0")) {
-
+			
 			return dbArticle.doGETallArticlesfromDB();
 		} else if (!title.equals("0") && author.equals("0")) {
 

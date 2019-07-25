@@ -3,8 +3,11 @@ package ApiAdmin;
 import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.CookieParam;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -12,9 +15,14 @@ import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Cookie;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+
+import org.springframework.web.bind.annotation.CookieValue;
 
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
@@ -96,15 +104,15 @@ public class ArticleController {
 	}
 	
 	
-	@POST
+	@GET
 	@Path("/articles/test")
 	//@Consumes(MediaType.APPLICATION_JSON)
-	public Response test(@FormParam("Title")String title, @FormParam("Author")String author, @FormParam("url")String url, @FormParam("textarea")String content1) {
-		System.out.println(title);
-		System.out.println(author);
-		System.out.println(url);
-		System.out.println(content1);
-		return null;
+	public String test(@Context HttpHeaders headers,@CookieParam(value="ali") String cookieParam1) {
+		
+		
+		
+	      System.out.println(cookieParam1);
+	      return cookieParam1;
 	}
 
 	/**
