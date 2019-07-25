@@ -1,5 +1,6 @@
 package ApiControllers;
 
+import java.net.URISyntaxException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -47,15 +48,21 @@ public class ArticleController {
 	 * @throws ClassNotFoundException   if class did not found
 	 * @throws SQLException             if query to SQL is not successful
 	 * @throws NoSuchAlgorithmException
+	 * @throws URISyntaxException 
 	 */
 	@GET
 	@Path("/articles")
 	public Response GetArticleBYTitle(@DefaultValue("0") @QueryParam("title") String title,
 			@DefaultValue("0") @QueryParam("author") String author ,@CookieParam(value="myStrCookie") String cookieParam1)
-			throws ClassNotFoundException, SQLException, NoSuchAlgorithmException {
+			throws ClassNotFoundException, SQLException, NoSuchAlgorithmException, URISyntaxException {
 		//deleteoldTokens.DeleteOldTokens();
 		//oldsession.DeleteoldSessions();
 		
+	  if(cookieParam1.length()==0 || cookieParam1 == null) {
+		 // must redirected to login html
+		 // java.net.URI url = new java.net.URI("/Store/login.html");
+		//	return Response.temporaryRedirect(url).build();
+		  if(isValidCookie) {  // i have to write code about check the cookie code is true!
 	  
 		System.out.println(cookieParam1);
 		System.out.println("TEST~!");
@@ -69,9 +76,12 @@ public class ArticleController {
 
 			return dbArticle.GetArticlesfromDBbyAUTHOR(author);
 		}
-
-		return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-				.entity("Please be sure that  ^title^ or ^author^ param are empty or each one !").build();
+	  }
+	  }
+		  java.net.URI url = new java.net.URI("/Store/login.html");
+			return Response.temporaryRedirect(url).build();
+//		return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+//				.entity("Please be sure that  ^title^ or ^author^ param are empty or each one !").build();
 
 	}
 }
