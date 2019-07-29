@@ -62,7 +62,7 @@ public class ArticleController {
 		 // must redirected to login html
 		 // java.net.URI url = new java.net.URI("/Store/login.html");
 		//	return Response.temporaryRedirect(url).build();
-		  if(isValidCookie) {  // i have to write code about check the cookie code is true!
+		  if(isvalid.isvalidCookie(cookieParam1)) {  // i have to write code about check the cookie code is true!
 	  
 		System.out.println(cookieParam1);
 		System.out.println("TEST~!");

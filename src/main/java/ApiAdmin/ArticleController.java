@@ -103,7 +103,7 @@ public class ArticleController {
 		return Response.status(Response.Status.UNAUTHORIZED).entity("Only admins can use this request !").build();
 	}
 	
-	
+	//Test method ~!
 	@GET
 	@Path("/articles/test")
 	//@Consumes(MediaType.APPLICATION_JSON)

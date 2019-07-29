@@ -504,4 +504,26 @@ public class CheckValidBoolean {
 
 		return false;
 	}
+	public boolean isvalidCookie(String cookie) throws ClassNotFoundException, SQLException {
+		conn = connectLink.getConnectionLink();
+		myStmt = (PreparedStatement) conn.prepareStatement("select * from tokens where `token` =?");
+		myStmt.setString(1, cookie);
+		rs = myStmt.executeQuery();
+		ArrayList<isValidModels> Cookieinfo = new ArrayList<>();
+		while (rs.next()) {
+
+			isValidModels userinfo = new isValidModels();
+
+			userinfo.user_id = rs.getInt(2);
+			userinfo.token = rs.getString(3);
+			Cookieinfo.add(userinfo);
+
+		}
+		if(Cookieinfo!=null || Cookieinfo.size()>0) {
+			
+			return true;
+		}
+		
+		return false;
+	}
 }
