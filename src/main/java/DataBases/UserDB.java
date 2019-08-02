@@ -216,7 +216,7 @@ public class UserDB {
 	public void postUserTokentoDB(StringBuilder token,String email) throws SQLException, ClassNotFoundException {
 		
 		conn = connectLink.getConnectionLink();
-		myStmt = (PreparedStatement) conn.prepareStatement("select * from users where `email` =?");
+		myStmt = (PreparedStatement) conn.prepareStatement("select * from users where `email` =? limit 1");
 		myStmt.setString(1, email);
 		rs = myStmt.executeQuery();
 		

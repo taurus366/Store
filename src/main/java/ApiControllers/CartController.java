@@ -1,10 +1,12 @@
 package ApiControllers;
 
+import java.net.URISyntaxException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.CookieParam;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
@@ -55,60 +57,74 @@ public class CartController {
 	 * @throws ClassNotFoundException   if class did not found
 	 * @throws SQLException             if query to SQL is not successful
 	 * @throws NoSuchAlgorithmException
+	 * @throws URISyntaxException 
 	 */
 
 	@POST
 	@Path("/cart/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response postUsercart(@PathParam("id") int id, @HeaderParam("Auth") String token,
-			@HeaderParam("session") String session)
-			throws ClassNotFoundException, SQLException, NoSuchAlgorithmException {
-
-		try {
-			deleteoldTokens.DeleteOldTokens();
-			oldsession.DeleteoldSessions();
-			updateSessionidTime.UpdateSessionId(toMD5.GenerateMd5(session));
-
-			if (session.length() > 0 && token.length() > 0) {
-				if (isvalid.isArticul(id)) {
-					if (isvalid.IsValidTokenAndSession(toMD5.GenerateMd5(session), token)) {
-
-						return UserCartDB.postUserCart(id, token, session);
-					} else {
-						return Response.status(Response.Status.UNAUTHORIZED).entity(
-								"We catch that your token's user_id and session's user_id aren't same! Please log in!")
-								.build();
-					}
+			@HeaderParam("session") String session, @CookieParam(value="myStrCookie") String cookieParam1)
+			throws ClassNotFoundException, SQLException, NoSuchAlgorithmException, URISyntaxException {
+			// should check if the cookie is already was created!
+			if(cookieParam1.length()>0||cookieParam1!=null) {
+				
+				if(isvalid.isvalidCookie(cookieParam1)) {
+					// should send to DB  command  add item to Cart!
+					
+					
 				}
-
-			} else if (session.length() == 0 && token.length() == 0) {
-				if (isvalid.isArticul(id)) {
-
-					int GuestnoSession = 1;
-					return guestDB.postGuestCart(id, sessionGenerator.sessionGenerator(), GuestnoSession);
-				}
-
-			} else if (session.length() > 0 && token.length() == 0) {
-				if (isvalid.isvalidsessionID(toMD5.GenerateMd5(session))) {
-					if (isvalid.isArticul(id)) {
-						int GuestSession = 2;
-
-						return guestDB.postGuestCart(id, session, GuestSession);
-					}
-
-				} else {
-					return Response.status(Response.Status.UNAUTHORIZED).entity(
-							"We couldn't find same session id in our DB , if you don't know your session id Please be sure that your session id is empty in Header params to Generate new session ID !")
-							.build();
-				}
-
 			}
-		} catch (NullPointerException e) {
-			return Response.status(Response.Status.NOT_FOUND)
-					.entity("If you are a guest please create a param 'session'  and `Auth`").build();
-		}
+		
+		//Redirect to login page !
+			java.net.URI url = new java.net.URI("/Store/login.html");
+				return Response.temporaryRedirect(url).build();
 
-		return Response.status(Response.Status.NOT_FOUND).entity("You wrote invalid articul ID!").build();
+//		try {
+//			deleteoldTokens.DeleteOldTokens();
+//			oldsession.DeleteoldSessions();
+//			updateSessionidTime.UpdateSessionId(toMD5.GenerateMd5(session));
+//
+//			if (session.length() > 0 && token.length() > 0) {
+//				if (isvalid.isArticul(id)) {
+//					if (isvalid.IsValidTokenAndSession(toMD5.GenerateMd5(session), token)) {
+//
+//						return UserCartDB.postUserCart(id, token, session);
+//					} else {
+//						return Response.status(Response.Status.UNAUTHORIZED).entity(
+//								"We catch that your token's user_id and session's user_id aren't same! Please log in!")
+//								.build();
+//					}
+//				}
+//
+//			} else if (session.length() == 0 && token.length() == 0) {
+//				if (isvalid.isArticul(id)) {
+//
+//					int GuestnoSession = 1;
+//					return guestDB.postGuestCart(id, sessionGenerator.sessionGenerator(), GuestnoSession);
+//				}
+//
+//			} else if (session.length() > 0 && token.length() == 0) {
+//				if (isvalid.isvalidsessionID(toMD5.GenerateMd5(session))) {
+//					if (isvalid.isArticul(id)) {
+//						int GuestSession = 2;
+//
+//						return guestDB.postGuestCart(id, session, GuestSession);
+//					}
+//
+//				} else {
+//					return Response.status(Response.Status.UNAUTHORIZED).entity(
+//							"We couldn't find same session id in our DB , if you don't know your session id Please be sure that your session id is empty in Header params to Generate new session ID !")
+//							.build();
+//				}
+//
+//			}
+//		} catch (NullPointerException e) {
+//			return Response.status(Response.Status.NOT_FOUND)
+//					.entity("If you are a guest please create a param 'session'  and `Auth`").build();
+//		}
+//
+//		return Response.status(Response.Status.NOT_FOUND).entity("You wrote invalid articul ID!").build();
 
 	}
 

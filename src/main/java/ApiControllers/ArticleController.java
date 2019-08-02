@@ -58,24 +58,27 @@ public class ArticleController {
 		//deleteoldTokens.DeleteOldTokens();
 		//oldsession.DeleteoldSessions();
 		
-	  if(cookieParam1.length()==0 || cookieParam1 == null) {
-		 // must redirected to login html
+	  if(cookieParam1.length()!=0 || cookieParam1 != null || cookieParam1.length()>0) {
+		
 		 // java.net.URI url = new java.net.URI("/Store/login.html");
 		//	return Response.temporaryRedirect(url).build();
 		  if(isvalid.isvalidCookie(cookieParam1)) {  // i have to write code about check the cookie code is true!
-	  
-		System.out.println(cookieParam1);
-		System.out.println("TEST~!");
-		if (title.equals("0") && author.equals("0")) {
-			
-			return dbArticle.doGETallArticlesfromDB();
-		} else if (!title.equals("0") && author.equals("0")) {
-
-			return dbArticle.GetArticlesfromDBbyTITLE(title);
-		} else if (!author.equals("0") && title.equals("0")) {
-
-			return dbArticle.GetArticlesfromDBbyAUTHOR(author);
-		}
+			  return dbArticle.doGETallArticlesfromDB();
+			  
+			  
+//		System.out.println(cookieParam1);
+//		System.out.println("TEST~!");
+		
+//		if (title.equals("0") && author.equals("0")) {
+//			
+//			return dbArticle.doGETallArticlesfromDB();
+//		} else if (!title.equals("0") && author.equals("0")) {
+//
+//			return dbArticle.GetArticlesfromDBbyTITLE(title);
+//		} else if (!author.equals("0") && title.equals("0")) {
+//
+//			return dbArticle.GetArticlesfromDBbyAUTHOR(author);
+//		}
 	  }
 	  }
 		  java.net.URI url = new java.net.URI("/Store/login.html");
