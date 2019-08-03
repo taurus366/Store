@@ -141,54 +141,65 @@ public class CartController {
 	 * @throws ClassNotFoundException   if class did not found
 	 * @throws SQLException             if query to SQL is not successful
 	 * @throws NoSuchAlgorithmException
+	 * @throws URISyntaxException 
 	 */
 
 	@GET
 	@Path("/cart")
-	public Response doGETuserCart(@HeaderParam("Auth") String token, @HeaderParam("session") String session)
-			throws ClassNotFoundException, SQLException, NoSuchAlgorithmException {
-		try {
-			deleteoldTokens.DeleteOldTokens();
-			oldsession.DeleteoldSessions();
-			updateSessionidTime.UpdateSessionId(toMD5.GenerateMd5(session));
-		} catch (Exception e) {
-			return Response.status(Response.Status.UNAUTHORIZED)
-					.entity("We realised that you aren't using any session ID or token...!").build();
+	public Response doGETuserCart(@HeaderParam("Auth") String token, @HeaderParam("session") String session,  @CookieParam(value="myStrCookie") String cookieParam1)
+			throws ClassNotFoundException, SQLException, NoSuchAlgorithmException, URISyntaxException {
+		if(cookieParam1.length()>0||cookieParam1!=null) {
+		
+			//should return user's cart!
+			
 		}
-
-		if (token.length() == 0 && session.length() > 0) {
-
-			if (isvalid.isvalidsessionID(toMD5.GenerateMd5(session))) {
-
-				if (isvalid.isvalidGuestsSessionID(session)) {
-					return guestDB.getGuestCartinfo(toMD5.GenerateMd5(session));
-				} else {
-					return Response.status(Response.Status.UNAUTHORIZED).entity(
-							"You are using a session ID which has a token ID , you have to login to Generate  token ID !")
-							.build();
-				}
-
-			} else {
-				return Response.status(Response.Status.UNAUTHORIZED).entity("invalid Session ID!").build();
-			}
-		} else if (token.length() > 0 && session.length() > 0) {
-			if (isvalid.isValidUser(token)) {
-				if (isvalid.IsValidTokenAndSession(toMD5.GenerateMd5(session), token)) {
-					return UserCartDB.doGetUsercart(token);
-				} else {
-					return Response.status(Response.Status.UNAUTHORIZED).entity(
-							"We catched that your token's user_id and session's user_id aren't same!it would be the sessionid hase expired! Please log in! then you can check your cart! ")
-							.build();
-				}
-
-			} else {
-				return Response.status(Response.Status.UNAUTHORIZED).entity("Yout token is not valid! ").build();
-			}
-
-		}
-
-		return Response.status(Response.Status.UNAUTHORIZED)
-				.entity("We couldn't recognise you!Please log in to Generate new tokenID and sessionID!").build();
+		// or >>>
+		java.net.URI url = new java.net.URI("/Store/login.html");
+		return Response.temporaryRedirect(url).build();
+		
+		
+//		try {
+//			deleteoldTokens.DeleteOldTokens();
+//			oldsession.DeleteoldSessions();
+//			updateSessionidTime.UpdateSessionId(toMD5.GenerateMd5(session));
+//		} catch (Exception e) {
+//			return Response.status(Response.Status.UNAUTHORIZED)
+//					.entity("We realised that you aren't using any session ID or token...!").build();
+//		}
+//
+//		if (token.length() == 0 && session.length() > 0) {
+//
+//			if (isvalid.isvalidsessionID(toMD5.GenerateMd5(session))) {
+//
+//				if (isvalid.isvalidGuestsSessionID(session)) {
+//					return guestDB.getGuestCartinfo(toMD5.GenerateMd5(session));
+//				} else {
+//					return Response.status(Response.Status.UNAUTHORIZED).entity(
+//							"You are using a session ID which has a token ID , you have to login to Generate  token ID !")
+//							.build();
+//				}
+//
+//			} else {
+//				return Response.status(Response.Status.UNAUTHORIZED).entity("invalid Session ID!").build();
+//			}
+//		} else if (token.length() > 0 && session.length() > 0) {
+//			if (isvalid.isValidUser(token)) {
+//				if (isvalid.IsValidTokenAndSession(toMD5.GenerateMd5(session), token)) {
+//					return UserCartDB.doGetUsercart(token);
+//				} else {
+//					return Response.status(Response.Status.UNAUTHORIZED).entity(
+//							"We catched that your token's user_id and session's user_id aren't same!it would be the sessionid hase expired! Please log in! then you can check your cart! ")
+//							.build();
+//				}
+//
+//			} else {
+//				return Response.status(Response.Status.UNAUTHORIZED).entity("Yout token is not valid! ").build();
+//			}
+//
+//		}
+//
+//		return Response.status(Response.Status.UNAUTHORIZED)
+//				.entity("We couldn't recognise you!Please log in to Generate new tokenID and sessionID!").build();
 	}
 
 	/**
