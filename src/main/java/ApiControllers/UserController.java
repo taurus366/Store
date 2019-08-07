@@ -59,35 +59,14 @@ public class UserController {
 
 	@POST
 	@Path("/auth/register")
-	//@Consumes(MediaType.APPLICATION_JSON)
-	//RegisterUser user
+	
 	public Response doPostUser( @FormParam("firstname")String firstname,@FormParam("lastname")String lastname,@FormParam("phone")String phone,@FormParam("postalcode")String postalcode,@FormParam("country")String country,@FormParam("city")String city,@FormParam("address")String address,@FormParam("email")String email,@FormParam("password")String password)
 			throws ClassNotFoundException, SQLException, NoSuchAlgorithmException, MalformedURIException, URISyntaxException {
-		//deleteoldTokens.DeleteOldTokens();
-		//oldsession.DeleteoldSessions();
 		
 		
 		
-//		try {
-//			if (user.getEmail().length() == 0 || user.getPassword().length() == 0 || user.getFirstname().length() == 0
-//					|| user.getLastname().length() == 0 || user.getPhone().length() == 0
-//					|| user.getCountry().length() == 0 || user.getPostalcode().length() == 0
-//					|| user.getCity().length() == 0 || user.getAddress().length() == 0) {
-//			}
-//		} catch (NullPointerException e) {
-//			return Response.status(Response.Status.NOT_ACCEPTABLE).entity(
-//					"You have to write all fields ^email^ ^password^ ^firstname^ ^lastname^ ^phone^ ^country^ ^postalcode^ ^city^ ^address^ !")
-//					.build();
-//
-//		}
+		
 
-//		if (isvalid.isDuplicateUser(user.getEmail())) {
-//			return UserDB.doPOSTuser(user.getEmail(), user.getPassword(), user.getFirstname(), user.getLastname(),
-//					user.getPhone(), user.getCountry(), user.getPostalcode(), user.getCity(), user.getAddress());
-//		}
-
-//		return Response.status(Response.Status.NOT_ACCEPTABLE)
-//				.entity("User with same email has already registered! , please choose another email").build();
 		
 		if(isvalid.isDuplicateUser(email)) {
 			try {
@@ -154,15 +133,7 @@ public class UserController {
 		
 		
 		
-//		try {
-//			return UserDB.doUserloginCheck(loginmodel.getEmail(), tomd5.GenerateMd5(loginmodel.getPassword()),
-//					session.sessionGenerator(), tokenG.GenerateToken());
-//
-//		} catch (Exception e) {
-//			return Response.status(Response.Status.UNAUTHORIZED).entity("Please write all fields ^email^ ^password^!")
-//					.build();
-//
-//		}
+
 
 	}
 }

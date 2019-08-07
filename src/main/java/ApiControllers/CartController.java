@@ -27,6 +27,7 @@ import DataBases.DBconnectionLink;
 import DataBases.GuestCartDB;
 import DataBases.UserCartDB;
 import Generators.FromStringToMd5;
+import Generators.GetUserIDfromCookie;
 import Generators.SessionGenerator;
 
 @Path("/")
@@ -80,51 +81,6 @@ public class CartController {
 			java.net.URI url = new java.net.URI("/Store/login.html");
 				return Response.temporaryRedirect(url).build();
 
-//		try {
-//			deleteoldTokens.DeleteOldTokens();
-//			oldsession.DeleteoldSessions();
-//			updateSessionidTime.UpdateSessionId(toMD5.GenerateMd5(session));
-//
-//			if (session.length() > 0 && token.length() > 0) {
-//				if (isvalid.isArticul(id)) {
-//					if (isvalid.IsValidTokenAndSession(toMD5.GenerateMd5(session), token)) {
-//
-//						return UserCartDB.postUserCart(id, token, session);
-//					} else {
-//						return Response.status(Response.Status.UNAUTHORIZED).entity(
-//								"We catch that your token's user_id and session's user_id aren't same! Please log in!")
-//								.build();
-//					}
-//				}
-//
-//			} else if (session.length() == 0 && token.length() == 0) {
-//				if (isvalid.isArticul(id)) {
-//
-//					int GuestnoSession = 1;
-//					return guestDB.postGuestCart(id, sessionGenerator.sessionGenerator(), GuestnoSession);
-//				}
-//
-//			} else if (session.length() > 0 && token.length() == 0) {
-//				if (isvalid.isvalidsessionID(toMD5.GenerateMd5(session))) {
-//					if (isvalid.isArticul(id)) {
-//						int GuestSession = 2;
-//
-//						return guestDB.postGuestCart(id, session, GuestSession);
-//					}
-//
-//				} else {
-//					return Response.status(Response.Status.UNAUTHORIZED).entity(
-//							"We couldn't find same session id in our DB , if you don't know your session id Please be sure that your session id is empty in Header params to Generate new session ID !")
-//							.build();
-//				}
-//
-//			}
-//		} catch (NullPointerException e) {
-//			return Response.status(Response.Status.NOT_FOUND)
-//					.entity("If you are a guest please create a param 'session'  and `Auth`").build();
-//		}
-//
-//		return Response.status(Response.Status.NOT_FOUND).entity("You wrote invalid articul ID!").build();
 
 	}
 
@@ -143,14 +99,19 @@ public class CartController {
 	 * @throws NoSuchAlgorithmException
 	 * @throws URISyntaxException 
 	 */
-
+GetUserIDfromCookie getUserID;
 	@GET
 	@Path("/cart")
 	public Response doGETuserCart(@HeaderParam("Auth") String token, @HeaderParam("session") String session,  @CookieParam(value="myStrCookie") String cookieParam1)
 			throws ClassNotFoundException, SQLException, NoSuchAlgorithmException, URISyntaxException {
 		if(cookieParam1.length()>0||cookieParam1!=null) {
-		
-			//should return user's cart!
+		//get user id !<>
+			  if(isvalid.isvalidCookie(cookieParam1)) {
+				  // first get user id by cookie then send to GetUserCart !
+				  UserCartDB.GetUserCart(getUserID.GetUserIDbyCookie(cookieParam1));
+			  }
+			
+			//should return user's cart! by cookieParam1 !
 			
 		}
 		// or >>>
@@ -158,48 +119,7 @@ public class CartController {
 		return Response.temporaryRedirect(url).build();
 		
 		
-//		try {
-//			deleteoldTokens.DeleteOldTokens();
-//			oldsession.DeleteoldSessions();
-//			updateSessionidTime.UpdateSessionId(toMD5.GenerateMd5(session));
-//		} catch (Exception e) {
-//			return Response.status(Response.Status.UNAUTHORIZED)
-//					.entity("We realised that you aren't using any session ID or token...!").build();
-//		}
-//
-//		if (token.length() == 0 && session.length() > 0) {
-//
-//			if (isvalid.isvalidsessionID(toMD5.GenerateMd5(session))) {
-//
-//				if (isvalid.isvalidGuestsSessionID(session)) {
-//					return guestDB.getGuestCartinfo(toMD5.GenerateMd5(session));
-//				} else {
-//					return Response.status(Response.Status.UNAUTHORIZED).entity(
-//							"You are using a session ID which has a token ID , you have to login to Generate  token ID !")
-//							.build();
-//				}
-//
-//			} else {
-//				return Response.status(Response.Status.UNAUTHORIZED).entity("invalid Session ID!").build();
-//			}
-//		} else if (token.length() > 0 && session.length() > 0) {
-//			if (isvalid.isValidUser(token)) {
-//				if (isvalid.IsValidTokenAndSession(toMD5.GenerateMd5(session), token)) {
-//					return UserCartDB.doGetUsercart(token);
-//				} else {
-//					return Response.status(Response.Status.UNAUTHORIZED).entity(
-//							"We catched that your token's user_id and session's user_id aren't same!it would be the sessionid hase expired! Please log in! then you can check your cart! ")
-//							.build();
-//				}
-//
-//			} else {
-//				return Response.status(Response.Status.UNAUTHORIZED).entity("Yout token is not valid! ").build();
-//			}
-//
-//		}
-//
-//		return Response.status(Response.Status.UNAUTHORIZED)
-//				.entity("We couldn't recognise you!Please log in to Generate new tokenID and sessionID!").build();
+
 	}
 
 	/**

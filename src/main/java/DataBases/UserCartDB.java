@@ -130,7 +130,7 @@ public class UserCartDB {
 	 * @throws SQLException           if query to SQL is not successful
 	 */
 	@SuppressWarnings("unchecked")
-	public Response doGetUsercart(String token) throws ClassNotFoundException, SQLException {
+	public Response doGetUsercart(String cookie) throws ClassNotFoundException, SQLException {
 
 		ArrayList<isValidModels> userinfo = new ArrayList<>();
 
@@ -138,7 +138,7 @@ public class UserCartDB {
 
 		myStmt = (PreparedStatement) conn.prepareStatement(
 				"select  us.`id` as 'user_id',us.`email` as 'user_email',tok.`token` as 'user_token'from `users` as us inner join `tokens` as tok on us.`id` = tok.`user_id` where `token` =?");
-		myStmt.setString(1, token);
+		myStmt.setString(1, cookie);
 		rs = myStmt.executeQuery();
 
 		while (rs.next()) {
@@ -153,7 +153,7 @@ public class UserCartDB {
 
 		for (int i = 0; i < userinfo.size(); i++) {
 			isValidModels user = userinfo.get(i);
-			if (user.token.equals(token)) {
+			if (user.token.equals(cookie)) {
 				user_email = user.email;
 			}
 		}
@@ -179,6 +179,31 @@ public class UserCartDB {
 		}
 		return Response.status(Response.Status.OK).entity(orderinfo.toString()).build();
 
+	}
+	public String GetUserCart(int user_id) throws ClassNotFoundException, SQLException {
+		
+		ArrayList<isValidModels> userinfo = new ArrayList<>();
+
+		conn = connectLink.getConnectionLink();
+
+		myStmt = (PreparedStatement) conn.prepareStatement(
+				"select  from cart where user_id =?");
+		myStmt.setInt(1, user_id);
+		rs = myStmt.executeQuery();
+
+		while (rs.next()) {
+
+			isValidModels user = new isValidModels();
+
+			user.email = rs.getString(2);
+			user.token = rs.getString(3);
+			userinfo.add(user);
+		}
+		
+		
+		
+		return null;
+		
 	}
 
 }

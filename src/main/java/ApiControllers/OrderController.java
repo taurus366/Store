@@ -60,7 +60,7 @@ public class OrderController {
 			throws ClassNotFoundException, SQLException, NoSuchAlgorithmException {
 		deleteoldTokens.DeleteOldTokens();
 		oldsession.DeleteoldSessions();
-		//updateSessionidTime.UpdateSessionId(toMD5.GenerateMd5(session));
+		
 
 		try {
 			updateSessionidTime.UpdateSessionId(toMD5.GenerateMd5(session));

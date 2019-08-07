@@ -38,53 +38,27 @@ public class ArticleController {
 	DeleteOldTokens deleteoldTokens = new DeleteOldTokens();
 	DeleteOldSessions oldsession = new DeleteOldSessions();
 
-	/**
-	 * Get all Articles from DB by filtering title or by author fetch title,author
-	 * then check which is 0 or >0 , then show Articles by filtering
-	 * 
-	 * @param title  title of the Articles
-	 * @param author author of the Articles
-	 * @return send all info to /Databases
-	 * @throws ClassNotFoundException   if class did not found
-	 * @throws SQLException             if query to SQL is not successful
-	 * @throws NoSuchAlgorithmException
-	 * @throws URISyntaxException 
-	 */
+	
+	
 	@GET
 	@Path("/articles")
-	public Response GetArticleBYTitle(@DefaultValue("0") @QueryParam("title") String title,
-			@DefaultValue("0") @QueryParam("author") String author ,@CookieParam(value="myStrCookie") String cookieParam1)
+	public Response GetArticleBYTitle(@CookieParam(value="myStrCookie") String cookieParam1)
 			throws ClassNotFoundException, SQLException, NoSuchAlgorithmException, URISyntaxException {
-		//deleteoldTokens.DeleteOldTokens();
-		//oldsession.DeleteoldSessions();
+		
 		
 	  if(cookieParam1.length()!=0 || cookieParam1 != null || cookieParam1.length()>0) {
 		
-		 // java.net.URI url = new java.net.URI("/Store/login.html");
-		//	return Response.temporaryRedirect(url).build();
+		 
 		  if(isvalid.isvalidCookie(cookieParam1)) {  // i have to write code about check the cookie code is true!
 			  return dbArticle.doGETallArticlesfromDB();
 			  
 			  
-//		System.out.println(cookieParam1);
-//		System.out.println("TEST~!");
-		
-//		if (title.equals("0") && author.equals("0")) {
-//			
-//			return dbArticle.doGETallArticlesfromDB();
-//		} else if (!title.equals("0") && author.equals("0")) {
-//
-//			return dbArticle.GetArticlesfromDBbyTITLE(title);
-//		} else if (!author.equals("0") && title.equals("0")) {
-//
-//			return dbArticle.GetArticlesfromDBbyAUTHOR(author);
-//		}
+
 	  }
 	  }
 		  java.net.URI url = new java.net.URI("/Store/login.html");
 			return Response.temporaryRedirect(url).build();
-//		return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-//				.entity("Please be sure that  ^title^ or ^author^ param are empty or each one !").build();
+
 
 	}
 }
