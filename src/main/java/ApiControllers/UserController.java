@@ -101,8 +101,7 @@ public class UserController {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response Userlogin(@QueryParam("email")String email,@QueryParam("password")String password) throws NoSuchAlgorithmException, ClassNotFoundException, SQLException, URISyntaxException {
-		deleteoldTokens.DeleteOldTokens();
-		oldsession.DeleteoldSessions();
+		
 
 		if(UserDB.doUserloginCheck(email, tomd5.GenerateMd5(password))) {
 			 StringBuilder token = tokenG.GenerateToken();

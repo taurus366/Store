@@ -64,8 +64,7 @@ public class CartController {
 	@POST
 	@Path("/cart/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response postUsercart(@PathParam("id") int id, @HeaderParam("Auth") String token,
-			@HeaderParam("session") String session, @CookieParam(value="myStrCookie") String cookieParam1)
+	public Response postUsercart(@PathParam("id") int id, @CookieParam(value="myStrCookie") String cookieParam1)
 			throws ClassNotFoundException, SQLException, NoSuchAlgorithmException, URISyntaxException {
 			// should check if the cookie is already was created!
 			if(cookieParam1.length()>0||cookieParam1!=null) {
@@ -102,7 +101,7 @@ public class CartController {
 GetUserIDfromCookie getUserID;
 	@GET
 	@Path("/cart")
-	public Response doGETuserCart(@HeaderParam("Auth") String token, @HeaderParam("session") String session,  @CookieParam(value="myStrCookie") String cookieParam1)
+	public Response doGETuserCart(@CookieParam(value="myStrCookie") String cookieParam1)
 			throws ClassNotFoundException, SQLException, NoSuchAlgorithmException, URISyntaxException {
 		if(cookieParam1.length()>0||cookieParam1!=null) {
 		//get user id !<>
@@ -139,45 +138,8 @@ GetUserIDfromCookie getUserID;
 
 	@DELETE
 	@Path("/cart/{id}")
-	public Response doDeletefromCart(@PathParam("id") int id, @HeaderParam("Auth") String token,
-			@HeaderParam("session") String session)
+	public Response doDeletefromCart(@PathParam("id") int id,@CookieParam(value="myStrCookie") String cookieParam1)
 			throws ClassNotFoundException, SQLException, NoSuchAlgorithmException {
-		oldsession.DeleteoldSessions();
-		deleteoldTokens.DeleteOldTokens();
-		updateSessionidTime.UpdateSessionId(toMD5.GenerateMd5(session));
-		if (session.length() > 0 && token.length() == 0) {
-			if (isvalid.isvalidsessionID(toMD5.GenerateMd5(session))) {
-				if (isvalid.isValidArticleIDintoCartbySessionID(id, toMD5.GenerateMd5(session))) {
-					return guestDB.deleteGuestCart(id, toMD5.GenerateMd5(session));
-
-				} else {
-					return Response.status(Response.Status.UNAUTHORIZED)
-							.entity("We couldn't find the item into your cart!").build();
-				}
-
-			} else {
-				return Response.status(Response.Status.UNAUTHORIZED).entity("invalid Session ID!").build();
-			}
-		}
-
-		if (isvalid.isValidUser(token)) {
-
-			if (isvalid.IsValidTokenAndSession(toMD5.GenerateMd5(session), token)) {
-				if (isvalid.isValidarticleIDinCART(id, token)) {
-					return UserCartDB.doRemoveUserCartItem(id, token);
-				} else {
-					return Response.status(Response.Status.NOT_FOUND)
-							.entity("We couldn't find Article with same id into your cart !").build();
-				}
-			} else {
-				return Response.status(Response.Status.UNAUTHORIZED).entity(
-						"We catched that your token's user_id and session's user_id aren't same!it would be the sessionid hase expired! Please log in! then you can delete articles from cart! ")
-						.build();
-			}
-
-		}
-		return Response.status(Response.Status.UNAUTHORIZED)
-				.entity("We couldn't recognise you! Please check your token!").build();
-
+		return null;
 	}
 }
