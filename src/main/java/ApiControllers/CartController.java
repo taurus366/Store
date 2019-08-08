@@ -45,7 +45,7 @@ public class CartController {
 	DeleteOldTokens deleteoldTokens = new DeleteOldTokens();
 	FromStringToMd5 toMD5 = new FromStringToMd5();
 	UpdateSessionId updateSessionidTime = new UpdateSessionId();
-
+	GetUserIDfromCookie getUserID;
 	/**
 	 * Post user items into DB cart fetch token,id and session then send to verify
 	 * if it is user's token and is the session is valid check the article id is
@@ -60,18 +60,23 @@ public class CartController {
 	 * @throws NoSuchAlgorithmException
 	 * @throws URISyntaxException 
 	 */
-
+	
 	@POST
 	@Path("/cart/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response postUsercart(@PathParam("id") int id, @CookieParam(value="myStrCookie") String cookieParam1)
+	public Response postUsercart(@PathParam("id") int id, @CookieParam(value="myStrCookie") String cookie)
 			throws ClassNotFoundException, SQLException, NoSuchAlgorithmException, URISyntaxException {
 			// should check if the cookie is already was created!
-			if(cookieParam1.length()>0||cookieParam1!=null) {
+			if(cookie.length()>0||cookie!=null) {
 				
-				if(isvalid.isvalidCookie(cookieParam1)) {
+				if(isvalid.isvalidCookie(cookie)) {
 					// should send to DB  command  add item to Cart!
-					
+					try {
+						UserCartDB.postUserCart(id, getUserID.GetUserIDbyCookie(cookie));
+					} catch (Exception e) {
+						return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
+						// TODO: handle exception
+					}
 					
 				}
 			}
@@ -81,6 +86,11 @@ public class CartController {
 				return Response.temporaryRedirect(url).build();
 
 
+	}
+
+	private Object getUserID(String cookie) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	/**
@@ -98,7 +108,7 @@ public class CartController {
 	 * @throws NoSuchAlgorithmException
 	 * @throws URISyntaxException 
 	 */
-GetUserIDfromCookie getUserID;
+
 	@GET
 	@Path("/cart")
 	public Response doGETuserCart(@CookieParam(value="myStrCookie") String cookieParam1)

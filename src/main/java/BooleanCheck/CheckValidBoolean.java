@@ -514,7 +514,7 @@ public class CheckValidBoolean {
 
 			isValidModels userinfo = new isValidModels();
 
-			userinfo.user_id = rs.getInt(2);
+			
 			userinfo.token = rs.getString(3);
 			Cookieinfo.add(userinfo);
 
